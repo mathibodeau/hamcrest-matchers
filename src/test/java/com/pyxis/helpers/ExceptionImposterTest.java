@@ -1,8 +1,8 @@
-package com.pyxis.matchers;
+package com.pyxis.helpers;
 
 import org.junit.Test;
 
-import com.pyxis.matchers.ExceptionImposter;
+import com.pyxis.helpers.ExceptionImposter;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

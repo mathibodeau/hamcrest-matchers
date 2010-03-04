@@ -1,4 +1,4 @@
-package com.pyxis.matchers;
+package com.pyxis.helpers;
 
 public class ExceptionImposter extends RuntimeException {
     private final Exception imposterized;

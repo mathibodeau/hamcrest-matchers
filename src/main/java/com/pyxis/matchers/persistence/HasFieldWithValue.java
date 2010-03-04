@@ -5,7 +5,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.pyxis.matchers.ExceptionImposter;
+import com.pyxis.helpers.ExceptionImposter;
 
 import java.lang.reflect.Field;
 
