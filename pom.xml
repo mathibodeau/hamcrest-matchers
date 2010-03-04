@@ -26,6 +26,7 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-unit-test</artifactId>
 			<version>1.2</version>
+			<scope>test</scope>
 		</dependency>
 		<!--
 			Declare junit after hamcrest because junit includes org.hamcrest.Matcher version 1.1 (not as a dependency, but right
