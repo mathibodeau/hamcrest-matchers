@@ -3,7 +3,7 @@
 	<groupId>com.pyxis</groupId>
 	<artifactId>hamcrest-matchers</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>hamcrest-matchers</name>
 	<url>http://maven.apache.org</url>
 	<description>A collection of hamcrest matchers</description>
