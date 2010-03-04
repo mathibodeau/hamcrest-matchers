@@ -8,10 +8,23 @@
 	<url>http://maven.apache.org</url>
 	<description>A collection of hamcrest matchers</description>
 
+    <repositories>
+        <repository>
+            <id>pyxis</id>
+            <name>Pyxis Nexus Maven Repository</name>
+            <url>https://www.pyxis-tech.ca/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-unit-test</artifactId>
 			<version>1.2</version>
 		</dependency>
 		<!--
