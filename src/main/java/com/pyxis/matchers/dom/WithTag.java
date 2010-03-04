@@ -5,7 +5,6 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 public class WithTag extends FeatureMatcher<Element, String> {
