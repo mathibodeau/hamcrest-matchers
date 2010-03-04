@@ -1,14 +1,13 @@
 package com.pyxis.matchers.selenium;
 
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.lift.match.AttributeMatcher;
 
-public class WebMatchers {
+public class SeleniumMatchers {
 
-    private WebMatchers() {}
+    private SeleniumMatchers() {}
 
     public static Matcher<WebElement> id(String id) {
         return AttributeMatcher.attribute("id", being(id));
