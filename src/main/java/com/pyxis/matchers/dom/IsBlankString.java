@@ -25,7 +25,8 @@ public class IsBlankString extends TypeSafeDiagnosingMatcher<String> {
 			return true;
 		
 		for (int i = 0; i < actual.length(); i++) {
-			if (!Character.isSpaceChar(actual.charAt(i))) {
+			char c = actual.charAt(i);
+			if (!Character.isSpaceChar(c) && !Character.isWhitespace(c)) {
 				return false;
 			}
 		}
