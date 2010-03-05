@@ -3,10 +3,12 @@ package com.pyxis.matchers.dom;
 import org.hamcrest.Factory;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.AnyOf;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.AnyOf.anyOf;
 
 public class WithAttribute extends FeatureMatcher<Element, String> {
     private final String attributeName;
@@ -38,6 +40,11 @@ public class WithAttribute extends FeatureMatcher<Element, String> {
 
     @Factory
     public static Matcher<Element> withClassName(String className) {
-        return withAttribute("class", containsString(className));
+        return withAttribute("class", anyOf(
+                equalTo(className),
+                startsWith(className + " "),
+                endsWith(" " + className),
+                containsString(" " + className + " ")
+        ));
     }
 }

@@ -6,6 +6,8 @@ import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
 import static com.pyxis.matchers.dom.WithAttribute.withAttribute;
+import static com.pyxis.matchers.dom.WithAttribute.withClassName;
+import static com.pyxis.matchers.dom.WithAttribute.withId;
 import static com.threelevers.css.DocumentBuilder.dom;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -28,6 +30,20 @@ public class WithAttributeTest extends AbstractMatcherTest {
         assertDoesNotMatch("correct attribute with incorrect case", withAttribute("name", "Submit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("incorrect attribute", withAttribute("name", "commit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("missing attribute", withAttribute("value", "submit"), anElementWithAttribute("name", "submit"));
+    }
+
+    public void testProvidesConvenientShortcutForMatchingId() {
+        assertMatches("correct id", withId("content"), anElementWithAttribute("id", "content"));
+        assertDoesNotMatch("incorrect id", withId("content"), anElementWithAttribute("id", "header"));
+    }
+
+    public void testProvidesConvenientShortcutForMatchingAClassName() {
+        assertMatches("correct class", withClassName("text"), anElementWithAttribute("class", "text"));
+        assertDoesNotMatch("incorrect class", withClassName("text"), anElementWithAttribute("class", "number"));
+        assertMatches("starting class", withClassName("text"), anElementWithAttribute("class", "text strong"));
+        assertMatches("ending class", withClassName("text"), anElementWithAttribute("class", "strong text"));
+        assertMatches("middle class", withClassName("text"), anElementWithAttribute("class", "bold text strong"));
+        assertDoesNotMatch("look-alike class", withClassName("text"), anElementWithAttribute("class", "textlongtext"));
     }
 
     public void testHasAReadableDescription() {
