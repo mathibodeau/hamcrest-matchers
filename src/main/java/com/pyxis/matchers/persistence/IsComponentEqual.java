@@ -1,14 +1,17 @@
 package com.pyxis.matchers.persistence;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.DiagnosingMatcher;
+import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static com.pyxis.matchers.persistence.PersistentFieldPredicate.persistentFieldsOf;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.nullValue;
-import static com.pyxis.matchers.persistence.SamePersistentFieldsAs.persistentFieldsOf;
 
 public class IsComponentEqual<T> extends DiagnosingMatcher<T> {
 
@@ -43,7 +46,7 @@ public class IsComponentEqual<T> extends DiagnosingMatcher<T> {
 
     private Matcher<T> allNullFields(final Object target) {
         Collection<Matcher<? super T>> nullFields = new ArrayList<Matcher<? super T>>();
-        for (Field field : persistentFieldsOf(target.getClass())) {
+        for (Field field : persistentFieldsOf(target)) {
             nullFields.add(new HasFieldWithValue<T>(field.getName(), nullValue()));
         }
         return allOf(nullFields);

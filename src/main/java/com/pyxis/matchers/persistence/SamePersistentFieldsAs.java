@@ -1,22 +1,18 @@
 package com.pyxis.matchers.persistence;
 
-import static com.pyxis.matchers.persistence.HasFieldWithValue.fieldValueOf;
-import static com.pyxis.matchers.persistence.HasFieldWithValue.hasField;
-import static com.pyxis.matchers.persistence.IsComponentEqual.componentEqualTo;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import org.hamcrest.*;
+import org.hamcrest.core.IsEqual;
 
 import javax.persistence.Embeddable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import static com.pyxis.helpers.Reflection.hasAnnotation;
+import static com.pyxis.helpers.Reflection.readField;
+import static com.pyxis.matchers.persistence.IsComponentEqual.componentEqualTo;
+import static com.pyxis.matchers.persistence.PersistentFieldPredicate.persistentFieldsOf;
+
 
 public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
 
@@ -28,86 +24,83 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
 
     @Override
     protected boolean matchesSafely(T argument, Description mismatchDescription) {
-        for (Matcher<? super T> matcher : persistentFieldsValuesOf(expectedEntity)) {
+        return isCompatibleType(argument, mismatchDescription)
+                && hasMatchingPersistentFields(argument, mismatchDescription);
+    }
+
+    private boolean isCompatibleType(T argument, Description mismatchDescription) {
+        if (!expectedEntity.getClass().isAssignableFrom(argument.getClass())) {
+            mismatchDescription.appendText("is incompatible type: " + argument.getClass().getSimpleName());
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasMatchingPersistentFields(T argument, Description mismatchDescription) {
+        for (Matcher<? super T> matcher : persistentFieldsMatchersFor(expectedEntity)) {
             if (!matcher.matches(argument)) {
                 matcher.describeMismatch(argument, mismatchDescription);
-              return false;
+                return false;
             }
         }
         return true;
     }
 
-    private static <T> Iterable<Matcher<? super T>> persistentFieldsValuesOf(T entity) {
-        Collection<Matcher<? super T>> valueMatchers = new ArrayList<Matcher<? super T>>();
-
-        for (Field basicField : persistentFieldsOf(typeOf(entity))) {
-            valueMatchers.add(hasField(nameOf(basicField), equalTo(fieldValueOf(entity, basicField))));
+    private static <T> Iterable<Matcher<? super T>> persistentFieldsMatchersFor(T entity) {
+        Collection<Matcher<? super T>> matchers = new ArrayList<Matcher<? super T>>();
+        for (Field field : persistentFieldsOf(entity)) {
+            matchers.add(new FieldMatcher(field, valueMatcherFor(entity, field)));
         }
-        for (Field embeddedField : embeddedFieldsOf(typeOf(entity))) {
-            valueMatchers.add(hasField(nameOf(embeddedField), componentEqualTo(fieldValueOf(entity, embeddedField))));
-        }
-        return valueMatchers;
+        return matchers;
     }
 
-    private static <T> Class<?> typeOf(Object entity) {
-        return entity.getClass();
-    }
-
-    private static String nameOf(Field field) {
-        return field.getName();
-    }
-
-    public static Field[] persistentFieldsOf(Class<?> entity) {
-        Field[] allFields = entity.getDeclaredFields();
-        List<Field> persistentFields = new ArrayList<Field>();
-        for (Field each : allFields) {
-            if (isPersistent(each) && !isEmbedded(each)) persistentFields.add(each);
-        }
-        return persistentFields.toArray(new Field[persistentFields.size()]);
-    }
-
-    private static boolean isPersistent(Field each) {
-        return !isStatic(each) && !isTransient(each);
-    }
-
-    public static Field[] embeddedFieldsOf(Class<?> entity) {
-        Field[] allFields = entity.getDeclaredFields();
-        List<Field> embeddedFields = new ArrayList<Field>();
-        for (Field each : allFields) {
-            if (isPersistent(each) && isEmbedded(each)) embeddedFields.add(each);
-        }
-        return embeddedFields.toArray(new Field[embeddedFields.size()]);
+    private static Matcher<Object> valueMatcherFor(Object entity, Field field) {
+        return !isEmbedded(field) ?
+            new IsEqual<Object>(readField(entity, field)) :
+            componentEqualTo(readField(entity, field));
     }
 
     private static boolean isEmbedded(Field field) {
-        return field.getType().getAnnotation(Embeddable.class) != null;
-    }
-
-    private static boolean isTransient(Field each) {
-        return Modifier.isTransient(each.getModifiers());
-    }
-
-    private static boolean isStatic(Field each) {
-        return Modifier.isStatic(each.getModifiers());
+        return hasAnnotation(field.getType(), Embeddable.class);
     }
 
     public void describeTo(Description description) {
-        description.appendText("has fields [");
+        description.appendText("with fields [");
         boolean addSeparator = false;
-        for (Field field : persistentFieldsOf(typeOf(expectedEntity))) {
+        for (Field field : persistentFieldsOf(expectedEntity)) {
             if (addSeparator) description.appendText(", ");
             description.appendText(field.getName() + ": ");
-            description.appendValue(fieldValueOf(expectedEntity, field));
-            addSeparator = true;
-        }
-        for (Field field : embeddedFieldsOf(typeOf(expectedEntity))) {
-            if (addSeparator) description.appendText(", ");
-            description.appendText(field.getName() + ": ");
-            componentEqualTo(fieldValueOf(expectedEntity, field)).describeTo(description);
+            valueMatcherFor(expectedEntity, field).describeTo(description);
             addSeparator = true;
         }
         description.appendText("]");
     }
+
+    public static class FieldMatcher extends DiagnosingMatcher<Object> {
+
+        private final Field field;
+        private final Matcher<Object> valueMatcher;
+
+        public FieldMatcher(Field field, Matcher<Object> valueMatcher) {
+            this.field = field;
+            this.valueMatcher = valueMatcher;
+        }
+
+        @Override protected boolean matches(Object argument, Description mismatchDescription) {
+            Object actualValue = readField(argument, field);
+            boolean valueMatches = valueMatcher.matches(actualValue);
+            if (!valueMatches) {
+                mismatchDescription.appendText(field.getName() + " ");
+                valueMatcher.describeMismatch(actualValue, mismatchDescription);
+            }
+            return valueMatches;
+        }
+
+        public void describeTo(Description description) {
+            description.appendText(field.getName() + ": ").appendDescriptionOf(valueMatcher);
+        }
+    }
+
 
     @Factory
     public static <T> Matcher<T> samePersistentFieldsAs(T entity) {

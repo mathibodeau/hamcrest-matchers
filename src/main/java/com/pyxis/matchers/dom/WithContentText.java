@@ -29,6 +29,7 @@ public class WithContentText extends FeatureMatcher<Element, String> {
         return withContent(equalTo(contentText));
     }
 
+    @Factory
 	public static Matcher<Element> withBlankContent() {
 		return withContent(isBlank());
 	}

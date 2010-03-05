@@ -5,9 +5,10 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.pyxis.helpers.ExceptionImposter;
-
 import java.lang.reflect.Field;
+
+import static com.pyxis.helpers.Reflection.readField;
+import static org.hamcrest.Matchers.anything;
 
 public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
 
@@ -24,34 +25,13 @@ public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
         Field field = getField(argument, mismatchDescription);
         if (field == null) return false;
 
-        Object fieldValue = fieldValueOf(argument, field);
+        Object fieldValue = readField(argument, field);
         boolean valueMatches = valueMatcher.matches(fieldValue);
         if (!valueMatches) {
             mismatchDescription.appendText("\"" + fieldName + "\" ");
             valueMatcher.describeMismatch(fieldValue, mismatchDescription);
         }
         return valueMatches;
-    }
-
-    public static Object fieldValueOf(Object argument, Field field) {
-        try {
-            boolean accessible = byPassSecurity(field);
-            Object value = field.get(argument);
-            restoreSecurity(field, accessible);
-            return value;
-        } catch (IllegalAccessException e) {
-            throw ExceptionImposter.imposterize(e);
-        }
-    }
-
-    private static void restoreSecurity(Field field, boolean accessible) {
-        field.setAccessible(accessible);
-    }
-
-    private static boolean byPassSecurity(Field field) {
-        boolean accessible = field.isAccessible();
-        field.setAccessible(true);
-        return accessible;
     }
 
     private Field getField(Object argument, Description mismatchDescription) {
@@ -73,5 +53,10 @@ public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
     @Factory
     public static <T> Matcher<T> hasField(String field, Matcher value) {
         return new HasFieldWithValue<T>(field, value);
+    }
+
+    @Factory
+    public static <T> Matcher<T> hasField(String field) {
+        return new HasFieldWithValue<T>(field, anything());
     }
 }
