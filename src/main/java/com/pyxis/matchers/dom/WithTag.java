@@ -5,12 +5,12 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 public class WithTag extends FeatureMatcher<Element, String> {
 
     public WithTag(Matcher<? super String> valueMatcher) {
-        super(valueMatcher, "an element with tag", "element tag");
+        super(valueMatcher, "element with tag", "element tag");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class WithTag extends FeatureMatcher<Element, String> {
 
     @Factory
     public static Matcher<Element> withTag(String tagName) {
-        return withTag(equalTo(tagName));
+        return withTag(equalToIgnoringCase(tagName));
     }
 }

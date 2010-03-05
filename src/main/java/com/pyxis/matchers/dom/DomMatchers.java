@@ -51,16 +51,16 @@ public class DomMatchers {
         return WithContentText.withContent(contentMatcher);
     }
 
-    public static Matcher<Element> hasAttribute(String name, Matcher<? super String> valueMatcher) {
-        return HasAttribute.hasAttribute(name, valueMatcher);
+    public static Matcher<Element> withAttribute(String name, Matcher<? super String> valueMatcher) {
+        return WithAttribute.withAttribute(name, valueMatcher);
     }
 
-    public static Matcher<Element> hasAttribute(String name, String value) {
-        return HasAttribute.hasAttribute(name, equalTo(value));
+    public static Matcher<Element> withAttribute(String name, String value) {
+        return WithAttribute.withAttribute(name, equalTo(value));
     }
 
     public static Matcher<Element> withId(String id) {
-        return HasAttribute.withId(id);
+        return WithAttribute.withId(id);
     }
 
     public static Matcher<Iterable<Element>> withSize(int size) {
@@ -68,7 +68,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> withClassName(String className) {
-        return HasAttribute.withClassName(className);
+        return WithAttribute.withClassName(className);
     }
 
     public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
