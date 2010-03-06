@@ -26,7 +26,7 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
     }
 
     public void testMatchesWhenAllPersistentFieldsMatch() {
-      assertMatches("matched fields", samePersistentFieldsAs(expectedEntity), shouldMatch);
+      assertMatches("matching fields", samePersistentFieldsAs(expectedEntity), shouldMatch);
     }
 
     public void testReportsMismatchWhenActualTypeIsNotAssignableToExpectedType() {
