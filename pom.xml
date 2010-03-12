@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.pyxis</groupId>
-	<artifactId>hamcrest-matchers</artifactId>
-	<packaging>jar</packaging>
-	<version>1.2-SNAPSHOT</version>
-	<name>hamcrest-matchers</name>
-	<url>http://maven.apache.org</url>
-	<description>A collection of hamcrest matchers</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.pyxis</groupId>
+    <artifactId>hamcrest-matchers</artifactId>
+    <packaging>jar</packaging>
+    <version>1.2-SNAPSHOT</version>
+    <name>hamcrest-matchers</name>
+    <url>http://maven.apache.org</url>
+    <description>A collection of hamcrest matchers</description>
 
     <repositories>
         <repository>
@@ -16,59 +17,64 @@
         </repository>
     </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-unit-test</artifactId>
-			<version>1.2</version>
-			<scope>test</scope>
-		</dependency>
-		<!--
-			Declare junit after hamcrest because junit includes org.hamcrest.Matcher version 1.1 (not as a dependency, but right
-			into junit's jar)
-		-->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>ejb3-persistence</artifactId>
-			<version>1.0.2.GA</version>
-		</dependency>
-           <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>3.0.0.RELEASE</version>
-            </dependency>
-		<dependency>
-			<groupId>com.3levers.cssselectors</groupId>
-			<artifactId>cssselectors</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-support</artifactId>
-			<version>2.0a2</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-unit-test</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!--
+              Declare junit after hamcrest because junit includes org.hamcrest.Matcher version 1.1 (not as a dependency, but right
+              into junit's jar)
+          -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>1.0.2.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.0.2.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.3levers.cssselectors</groupId>
+            <artifactId>cssselectors</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>2.0a2</version>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -76,25 +82,25 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>${pyxis.distributionManagement.repository.id}</id>
-			<url>${pyxis.distributionManagement.repository.url}</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>${pyxis.snapshot.distributionManagement.repository.id}</id>
-			<url>${pyxis.snapshot.distributionManagement.repository.url}</url>
-		</snapshotRepository>
-		<downloadUrl>${pyxis.distributionManagement.downloadUrl}</downloadUrl>
-	</distributionManagement>
-	<scm>
-		<connection>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</connection>
-		<url>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</url>
-	</scm>
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>${pyxis.distributionManagement.repository.id}</id>
+            <url>${pyxis.distributionManagement.repository.url}</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>${pyxis.snapshot.distributionManagement.repository.id}</id>
+            <url>${pyxis.snapshot.distributionManagement.repository.url}</url>
+        </snapshotRepository>
+        <downloadUrl>${pyxis.distributionManagement.downloadUrl}</downloadUrl>
+    </distributionManagement>
+    <scm>
+        <connection>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</connection>
+        <url>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</url>
+    </scm>
 
 </project>
