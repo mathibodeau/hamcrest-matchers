@@ -1,11 +1,11 @@
 package com.pyxis.matchers.dom;
 
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
-
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.w3c.dom.Element;
+
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.equalTo;
 
 public class DomMatchers {
 
@@ -26,7 +26,11 @@ public class DomMatchers {
     public static Matcher<Element> hasNoSelector(String selector) {
     	return HasNoSelector.hasNoSelector(selector);
     }
-    
+
+    public static Matcher<Iterable<Element>> inOrder(Matcher<Element>... elementMatchers) {
+        return Matchers.contains(elementMatchers);
+    }
+
     public static Matcher<Iterable<Element>> hasElement(Matcher<? super Element> elementMatcher) {
         return Matchers.hasItems(elementMatcher);
     }
