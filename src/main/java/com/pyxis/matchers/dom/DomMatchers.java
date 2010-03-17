@@ -4,6 +4,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.w3c.dom.Element;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -23,6 +24,10 @@ public class DomMatchers {
         return HasUniqueSelector.hasUniqueSelector(selector, elementMatcher);
     }
 
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element>... elementMatchers) {
+        return HasUniqueSelector.hasUniqueSelector(selector, allOf(elementMatchers));
+    }
+
     public static Matcher<Element> hasNoSelector(String selector) {
     	return HasNoSelector.hasNoSelector(selector);
     }
@@ -40,7 +45,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> withTag(String tagName) {
-        return WithTag.withTag(equalTo(tagName));
+        return WithTag.withTag(tagName);
     }
 
     public static Matcher<Element> withText(String contentText) {
