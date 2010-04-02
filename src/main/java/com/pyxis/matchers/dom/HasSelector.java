@@ -19,8 +19,8 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     }
 
     @Override
-    protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Iterable<Element> elements = from(doc).select(selector);
+    protected boolean matchesSafely(Element element, Description mismatchDescription) {
+        Iterable<Element> elements = from(element).select(selector);
         if (Iterables.isEmpty(elements)) {
             mismatchDescription.appendText("no selector ");
             mismatchDescription.appendText(selector);
@@ -35,11 +35,10 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     }
 
     public void describeTo(Description description) {
-        description.appendText("has selector ");
+        description.appendText("has selector \"");
         description.appendText(selector);
-        description.appendText(" ");
+        description.appendText("\" ");
         elementsMatcher.describeTo(description);
-
     }
 
     @Factory

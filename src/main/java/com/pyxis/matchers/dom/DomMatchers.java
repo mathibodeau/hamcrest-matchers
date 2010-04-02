@@ -12,6 +12,10 @@ public class DomMatchers {
 
     private DomMatchers() {}
 
+    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
+        return HasSelector.hasSelector(selector, hasElements(elementsMatchers));
+    }
+
     public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
         return HasSelector.hasSelector(selector, elementsMatcher);
     }
@@ -66,6 +70,10 @@ public class DomMatchers {
 
     public static Matcher<Element> withAttribute(String name, String value) {
         return WithAttribute.withAttribute(name, equalTo(value));
+    }
+
+    public static Matcher<Element> withName(String name) {
+        return WithAttribute.withName(name);
     }
 
     public static Matcher<Element> withId(String id) {

@@ -5,9 +5,7 @@ import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-import static com.pyxis.matchers.dom.WithAttribute.withAttribute;
-import static com.pyxis.matchers.dom.WithAttribute.withClassName;
-import static com.pyxis.matchers.dom.WithAttribute.withId;
+import static com.pyxis.matchers.dom.WithAttribute.*;
 import static com.threelevers.css.DocumentBuilder.dom;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -35,6 +33,11 @@ public class WithAttributeTest extends AbstractMatcherTest {
     public void testProvidesConvenientShortcutForMatchingId() {
         assertMatches("correct id", withId("content"), anElementWithAttribute("id", "content"));
         assertDoesNotMatch("incorrect id", withId("content"), anElementWithAttribute("id", "header"));
+    }
+
+    public void testProvidesConvenientShortcutForMatchingName() {
+        assertMatches("correct name", withName("fieldName"), anElementWithAttribute("name", "fieldName"));
+        assertDoesNotMatch("incorrect name", withName("fieldName"), anElementWithAttribute("name", "incorrectName"));
     }
 
     public void testProvidesConvenientShortcutForMatchingAClassName() {

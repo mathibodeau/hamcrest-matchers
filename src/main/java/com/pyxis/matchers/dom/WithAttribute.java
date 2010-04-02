@@ -47,4 +47,9 @@ public class WithAttribute extends FeatureMatcher<Element, String> {
                 containsString(" " + className + " ")
         ));
     }
+
+    @Factory
+    public static Matcher<Element> withName(String name) {
+        return withAttribute("name", equalTo(name));
+    }
 }

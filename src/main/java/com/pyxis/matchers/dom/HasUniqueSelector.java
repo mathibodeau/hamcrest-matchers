@@ -37,9 +37,9 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     }
 
     public void describeTo(Description description) {
-        description.appendText("has unique selector ");
+        description.appendText("has unique selector \"");
         description.appendText(selector);
-        description.appendText(" ");
+        description.appendText("\" ");
         elementMatcher.describeTo(description);
 
     }
