@@ -5,6 +5,10 @@ import org.hamcrest.Matcher;
 
 import javax.persistence.Embeddable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.pyxis.matchers.persistence.SamePersistentFieldsAs.samePersistentFieldsAs;
 
 public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
@@ -19,6 +23,9 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
     private static final ExampleEntity differentTransientFields = new ExampleEntity("same", 1, aValue, aComponent) {{
         isStatic = new Object();
         isTransient = new Object();
+    }};
+    private static final ExampleEntity differentCollectionFields = new ExampleEntity("same", 1, aValue, aComponent) {{
+        isCollection = Arrays.asList(new Object());
     }};
 
     @Override protected Matcher<?> createMatcher() {
@@ -47,6 +54,10 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
 
     public void testMatchesIfTransientFieldsAreDifferent() {
       assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
+    }
+
+    public void testMatchesIfCollectionFieldsAreDifferent() {
+      assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentCollectionFields);
     }
 
     public void testMatchesDescendantSameFields() {
@@ -105,8 +116,9 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         private Value value;
         private Dependent component;
 
-        static Object isStatic;
-        transient Object isTransient;
+        List<Object> isCollection = new ArrayList<Object>();
+        static Object isStatic = new Object();
+        transient Object isTransient = new Object();
 
         public ExampleEntity(String string, int integer, Value value, Dependent dependent) {
             this.string = string;
