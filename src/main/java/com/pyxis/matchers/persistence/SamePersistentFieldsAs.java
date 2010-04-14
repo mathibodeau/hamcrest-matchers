@@ -1,14 +1,17 @@
 package com.pyxis.matchers.persistence;
 
 import org.hamcrest.*;
+import org.hamcrest.core.DescribedAs;
 import org.hamcrest.core.IsEqual;
 
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.pyxis.helpers.Reflection.hasAnnotation;
 import static com.pyxis.helpers.Reflection.readField;
 import static com.pyxis.matchers.persistence.IsComponentEqual.componentEqualTo;
 import static com.pyxis.matchers.persistence.PersistentFieldPredicate.persistentFieldsOf;
@@ -55,13 +58,41 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
     }
 
     private static Matcher<Object> valueMatcherFor(Object entity, Field field) {
-        return !isEmbedded(field) ?
-            new IsEqual<Object>(readField(entity, field)) :
-            componentEqualTo(readField(entity, field));
+        if (isEmbedded(field)) return componentEqualTo(readField(entity, field));
+        if (isAssociation(field)) return anyAssociation();
+        return equalTo(readField(entity, field));
+    }
+
+    private static Matcher<Object> anyAssociation() {
+        return DescribedAs.describedAs("an association", Matchers.anything());
+    }
+
+    private static IsEqual<Object> equalTo(final Object arg) {
+        return new IsEqual<Object>(arg);
+    }
+
+    private static boolean isAssociation(Field field) {
+        return isManyToOne(field) || isOneToMany(field) || isManyToMany(field);
+    }
+
+    private static boolean isManyToMany(Field field) {
+        return field.getAnnotation(ManyToMany.class) != null;
+    }
+
+    private static boolean isOneToMany(Field field) {
+        return field.getAnnotation(OneToMany.class) != null;
+    }
+
+    private static boolean isManyToOne(Field field) {
+        return field.getAnnotation(ManyToOne.class) != null;
     }
 
     private static boolean isEmbedded(Field field) {
-        return hasAnnotation(field.getType(), Embeddable.class);
+        return isEmbeddable(field.getType());
+    }
+
+    private static boolean isEmbeddable(final Class<?> type) {
+        return type.getAnnotation(Embeddable.class) != null;
     }
 
     public void describeTo(Description description) {

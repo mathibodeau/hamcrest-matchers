@@ -4,10 +4,13 @@ import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import static com.pyxis.matchers.persistence.SamePersistentFieldsAs.samePersistentFieldsAs;
 
@@ -24,8 +27,10 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         isStatic = new Object();
         isTransient = new Object();
     }};
-    private static final ExampleEntity differentCollectionFields = new ExampleEntity("same", 1, aValue, aComponent) {{
-        isCollection = Arrays.asList(new Object());
+    private static final ExampleEntity differentAssociationFields = new ExampleEntity("same", 1, aValue, aComponent) {{
+        parent = new ParentEntity();
+        children = Arrays.asList(new ChildEntity(), new ChildEntity());
+        sibling = new ExampleEntity("sibling", 2, new Value("value"), new Dependent("component"));
     }};
 
     @Override protected Matcher<?> createMatcher() {
@@ -52,12 +57,12 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
             samePersistentFieldsAs(expectedEntity), new ExampleEntity("same", 1, aValue, new Dependent("other")));
     }
 
-    public void testMatchesIfTransientFieldsAreDifferent() {
+    public void testIgnoresTransientFields() {
       assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
     }
 
-    public void testMatchesIfCollectionFieldsAreDifferent() {
-      assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentCollectionFields);
+    public void testIgnoredAssociations() {
+      assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
     }
 
     public void testMatchesDescendantSameFields() {
@@ -71,7 +76,7 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
     }
 
     public void testHasHumanReadableDescription() {
-      assertDescription("with fields [string: \"same\", integer: <1>, value: <expected>, component: with fields [value: \"expected\"]]", samePersistentFieldsAs(expectedEntity));
+      assertDescription("with fields [string: \"same\", integer: <1>, value: <expected>, component: with fields [value: \"expected\"], parent: an association, children: an association, sibling: an association]", samePersistentFieldsAs(expectedEntity));
     }
 
 
@@ -109,6 +114,12 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         }
     }
 
+    public static class ParentEntity {
+    }
+
+    public static class ChildEntity {
+    }
+
     public static class ExampleEntity {
 
         private String string;
@@ -116,9 +127,11 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         private Value value;
         private Dependent component;
 
-        List<Object> isCollection = new ArrayList<Object>();
-        static Object isStatic = new Object();
-        transient Object isTransient = new Object();
+        @ManyToOne ParentEntity parent;
+        @OneToMany Collection<ChildEntity> children = new ArrayList<ChildEntity>();
+        @ManyToMany ExampleEntity sibling;
+        static Object isStatic;
+        transient Object isTransient;
 
         public ExampleEntity(String string, int integer, Value value, Dependent dependent) {
             this.string = string;
@@ -140,5 +153,6 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         public DescendantEntityWithExtraProperty(String string, int integer, Value value, Dependent dependent) {
             super(string, integer, value, dependent);
         }
+
     }
 }

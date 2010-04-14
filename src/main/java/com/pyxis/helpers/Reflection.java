@@ -22,10 +22,6 @@ public class Reflection {
             throw ExceptionImposter.imposterize(e);
         }
     }
-    
-    public static boolean hasAnnotation(Class<?> type, Class<? extends Annotation> annotationClass) {
-        return type.getAnnotation(annotationClass) != null;
-    }
 
     public static boolean isTransient(Field each) {
         return Modifier.isTransient(each.getModifiers());
