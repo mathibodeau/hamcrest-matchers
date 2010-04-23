@@ -99,8 +99,8 @@
         <downloadUrl>${pyxis.distributionManagement.downloadUrl}</downloadUrl>
     </distributionManagement>
     <scm>
-        <connection>scm:git:git://github.com/vtence/hamcrest-matchers.git</connection>
-        <url>scm:git:git://github.com/vtence/hamcrest-matchers.git</url>
+        <connection>scm:git:git://github.com/testinfected/hamcrest-matchers.git</connection>
+        <url>scm:git:git://github.com/vtence/testinfected-matchers.git</url>
     </scm>
 
 </project>
