@@ -23,7 +23,7 @@ public class WithAttributeTest extends AbstractMatcherTest {
         assertDoesNotMatch("missing attribute", withAttribute("value", equalTo("submit")), anElementWithAttribute("name", "submit"));
     }
 
-    public void testProvidesConvenientShortcutForAttributeValue() {
+    public void testProvidesConvenientShortcutForMatchingIdenticalValues() {
         assertMatches("correct attribute", withAttribute("name", "submit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("correct attribute with incorrect case", withAttribute("name", "Submit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("incorrect attribute", withAttribute("name", "commit"), anElementWithAttribute("name", "submit"));

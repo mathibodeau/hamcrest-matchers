@@ -1,12 +1,13 @@
 package com.pyxis.matchers.validation;
 
+import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.beans.HasPropertyWithValue;
 import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.IsCollectionContaining;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Path;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -42,10 +43,18 @@ public class ViolationMatchers {
     }
 
     public static <T> Matcher<ConstraintViolation<T>> on(String pathExpression) {
-        return HasPropertyWithValue.hasProperty("propertyPath", path(pathExpression));
+        return new FeatureMatcher<ConstraintViolation<T>, Path>(path(pathExpression), "on path", "path") {
+            @Override protected Path featureValueOf(ConstraintViolation<T> actual) {
+                return actual.getPropertyPath();
+            }
+        };
     }
 
     public static <T> Matcher<ConstraintViolation<T>> withError(String messagePart) {
-        return HasPropertyWithValue.hasProperty("messageTemplate", containsString(messagePart));
+        return new FeatureMatcher<ConstraintViolation<T>, String>(containsString(messagePart), "with message", "message") {
+            @Override protected String featureValueOf(ConstraintViolation<T> actual) {
+                return actual.getMessageTemplate();
+            }
+        };
     }
 }

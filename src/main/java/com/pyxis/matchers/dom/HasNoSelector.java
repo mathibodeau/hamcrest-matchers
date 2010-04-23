@@ -6,6 +6,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
 
+import static com.google.common.collect.Iterables.isEmpty;
 import static com.threelevers.css.Selector.from;
 
 public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
@@ -16,15 +17,10 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
         this.selector = selector;
     }
 
-    @Factory
-    public static Matcher<Element> hasNoSelector(String selector) {
-        return new HasNoSelector(selector);
-    }
-
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Iterable<Element> selected = from(doc).select(selector);
-        if (selected.iterator().hasNext()) {
+        if (!isEmpty(selected)) {
             mismatchDescription.appendText("matched element " + selected.iterator().next());
             return false;
         }
@@ -35,4 +31,8 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
         description.appendText("has no selector " + this.selector);
     }
 
+    @Factory
+    public static Matcher<Element> hasNoSelector(String selector) {
+        return new HasNoSelector(selector);
+    }
 }

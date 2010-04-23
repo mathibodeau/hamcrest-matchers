@@ -13,8 +13,8 @@ import static org.hamcrest.core.AnyOf.anyOf;
 public class WithAttribute extends FeatureMatcher<Element, String> {
     private final String attributeName;
 
-    public WithAttribute(String attributeName, Matcher<? super String> attributeValueMatcher) {
-        super(attributeValueMatcher, "element with attribute \"" + attributeName + "\"", "element attribute \"" + attributeName + "\"");
+    public WithAttribute(String attributeName, Matcher<? super String> valueMatcher) {
+        super(valueMatcher, "element with attribute \"" + attributeName + "\"", "element attribute \"" + attributeName + "\"");
         this.attributeName = attributeName;
     }
 

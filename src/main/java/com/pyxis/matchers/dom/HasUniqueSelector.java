@@ -21,13 +21,13 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Iterable<Element> allElements = from(doc).select(selector);
-        if (Iterables.size(allElements) != 1) {
+        if (!isSingleton(allElements)) {
             mismatchDescription.appendValue(Iterables.size(allElements));
             mismatchDescription.appendText(" selector(s) ");
             mismatchDescription.appendText(selector);
             return false;
         }
-        Element element = allElements.iterator().next();
+        Element element = Iterables.getOnlyElement(allElements);
         boolean valueMatches = elementMatcher.matches(element);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
@@ -36,12 +36,15 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
         return valueMatches;
     }
 
+    private boolean isSingleton(Iterable<Element> elements) {
+        return Iterables.size(elements) == 1;
+    }
+
     public void describeTo(Description description) {
         description.appendText("has unique selector \"");
         description.appendText(selector);
         description.appendText("\" ");
         elementMatcher.describeTo(description);
-
     }
 
     @Factory

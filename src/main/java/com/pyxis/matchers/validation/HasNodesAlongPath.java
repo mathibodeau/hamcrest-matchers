@@ -1,9 +1,6 @@
 package com.pyxis.matchers.validation;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.*;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 
 import javax.validation.Path;
@@ -16,7 +13,7 @@ import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.hamcrest.core.DescribedAs.describedAs;
 
 public class HasNodesAlongPath extends TypeSafeMatcher<Path> {
-    List<Matcher<? super Path.Node>> nodeMatchers = new ArrayList<Matcher<? super Path.Node>>();
+    private List<Matcher<? super Path.Node>> nodeMatchers;
 
     public HasNodesAlongPath(Matcher<? super Path.Node>... nodeMatchers) {
         this(Arrays.asList(nodeMatchers));
@@ -47,8 +44,10 @@ public class HasNodesAlongPath extends TypeSafeMatcher<Path> {
     }
 
     public static Matcher<? super Path.Node> nodeWithName(Matcher<? super String> nameMatcher) {
-        StringDescription description = new StringDescription();
-        nameMatcher.describeTo(description);
-        return describedAs(description.toString(), hasProperty("name", nameMatcher));
+        return new FeatureMatcher<Path.Node, String>(nameMatcher, "", "") {
+            @Override protected String featureValueOf(Path.Node actual) {
+                return actual.getName();
+            }
+        };
     }
 }

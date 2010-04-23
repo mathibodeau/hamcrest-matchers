@@ -25,7 +25,7 @@ public class HasNodesAlongPathTest extends AbstractMatcherTest {
     }
 
     public void testHasHumanReadableDescription() {
-        assertDescription("\"property\"", simplePath);        
-        assertDescription("\"path\"->\"to\"->\"property\"", composedPath);        
+        assertDescription(" \"property\"", simplePath);        
+        assertDescription(" \"path\"-> \"to\"-> \"property\"", composedPath);        
     }
 }

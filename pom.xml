@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.3levers.cssselectors</groupId>
@@ -99,8 +99,8 @@
         <downloadUrl>${pyxis.distributionManagement.downloadUrl}</downloadUrl>
     </distributionManagement>
     <scm>
-        <connection>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</connection>
-        <url>scm:git:git://github.com/mathibodeau/hamcrest-matchers.git</url>
+        <connection>scm:git:git://github.com/vtence/hamcrest-matchers.git</connection>
+        <url>scm:git:git://github.com/vtence/hamcrest-matchers.git</url>
     </scm>
 
 </project>

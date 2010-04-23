@@ -1,7 +1,7 @@
 package com.pyxis.matchers.dom;
 
 import static org.hamcrest.Matchers.equalTo;
-import static com.pyxis.matchers.dom.IsBlankString.isBlank;
+import static com.pyxis.matchers.core.IsBlankString.isBlank;
 
 import org.hamcrest.Factory;
 import org.hamcrest.FeatureMatcher;

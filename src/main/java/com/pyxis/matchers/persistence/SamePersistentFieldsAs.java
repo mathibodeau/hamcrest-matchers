@@ -132,7 +132,6 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
         }
     }
 
-
     @Factory
     public static <T> Matcher<T> samePersistentFieldsAs(T entity) {
         return new SamePersistentFieldsAs<T>(entity);

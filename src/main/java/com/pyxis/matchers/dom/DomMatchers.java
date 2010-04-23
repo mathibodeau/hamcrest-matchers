@@ -80,10 +80,6 @@ public class DomMatchers {
         return WithAttribute.withId(id);
     }
 
-    public static Matcher<Iterable<Element>> withSize(int size) {
-        return Matchers.iterableWithSize(size);
-    }
-
     public static Matcher<Element> withClassName(String className) {
         return WithAttribute.withClassName(className);
     }
@@ -98,5 +94,9 @@ public class DomMatchers {
 
     public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
         return HasChildElements.hasChildren(hasElement(childMatcher));
+    }
+
+    public static Matcher<Iterable<Element>> withSize(int size) {
+        return Matchers.iterableWithSize(size);
     }
 }

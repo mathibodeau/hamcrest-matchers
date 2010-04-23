@@ -1,6 +1,6 @@
-package com.pyxis.matchers.dom;
+package com.pyxis.matchers.core;
 
-import static com.pyxis.matchers.dom.IsBlankString.isBlank;
+import static com.pyxis.matchers.core.IsBlankString.isBlank;
 
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
@@ -28,8 +28,11 @@ public class IsBlankStringTest extends AbstractMatcherTest {
 		assertDoesNotMatch("a non-blank string", isBlank(), " x ");
 	}
 	
-	public void testDescription() {
+	public void testHasAReadableDescription() {
 		assertDescription("a blank string", isBlank());
 	}
-	
+
+    public void testHasAReadableMismatchDescription() {
+        assertMismatchDescription("not blank", isBlank(), "not blank");
+    }
 }
