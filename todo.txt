@@ -1,0 +1,3 @@
+- Add unit tests for ViolationMatchers convenient shortcuts
+- Add unit test for spring Model matchers
+- Split into sperate maven modules
