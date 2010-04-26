@@ -8,6 +8,8 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
 
 import static com.threelevers.css.Selector.from;
+import static java.lang.String.valueOf;
+import static org.hamcrest.Matchers.anything;
 
 public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     private final String selector;
@@ -22,9 +24,9 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Iterable<Element> allElements = from(doc).select(selector);
         if (!isSingleton(allElements)) {
-            mismatchDescription.appendValue(Iterables.size(allElements));
+            mismatchDescription.appendText(valueOf(Iterables.size(allElements)));
             mismatchDescription.appendText(" selector(s) ");
-            mismatchDescription.appendText(selector);
+            mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
         Element element = Iterables.getOnlyElement(allElements);
@@ -45,6 +47,11 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
         description.appendText(selector);
         description.appendText("\" ");
         elementMatcher.describeTo(description);
+    }
+
+    @Factory
+    public static Matcher<Element> hasUniqueSelector(String selector) {
+        return new HasUniqueSelector(selector, anything());
     }
 
     @Factory

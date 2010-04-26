@@ -25,7 +25,7 @@ public class WithRootElementTest extends AbstractMatcherTest {
     }
 
     public void testHasAReadableMismatchDescription() {
-        assertMismatchDescription("document element tag was \"HTML\"", withRootElement(withTag(equalTo("xml"))), doc("<HTML></HTML>"));
+        assertMismatchDescription("document element tag was \"HTML\"", withRootElement(withTag(equalTo("xml"))), doc("<html></html>"));
     }
 
 }

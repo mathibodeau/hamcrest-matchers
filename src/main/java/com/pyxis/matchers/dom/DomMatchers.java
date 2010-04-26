@@ -13,7 +13,7 @@ public class DomMatchers {
     private DomMatchers() {}
 
     public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
-        return HasSelector.hasSelector(selector, hasElements(elementsMatchers));
+        return HasSelector.hasSelector(selector, elementsMatchers);
     }
 
     public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
@@ -21,7 +21,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> hasUniqueSelector(String selector) {
-        return HasUniqueSelector.hasUniqueSelector(selector, anything());
+        return HasUniqueSelector.hasUniqueSelector(selector);
     }
 
     public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element> elementMatcher) {
@@ -53,7 +53,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> withText(String contentText) {
-        return WithContentText.withContent(equalTo(contentText));
+        return WithContentText.withContent(contentText);
     }
     
     public static Matcher<Element> withBlankText() {
@@ -69,7 +69,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> withAttribute(String name, String value) {
-        return WithAttribute.withAttribute(name, equalTo(value));
+        return WithAttribute.withAttribute(name, value);
     }
 
     public static Matcher<Element> withName(String name) {
@@ -85,15 +85,15 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
-        return HasChildElements.hasChildren(childrenMatcher);
+        return HasChildren.hasChildren(childrenMatcher);
     }
 
     public static Matcher<Element> hasChildren(Matcher<Element>... childrenMatchers) {
-        return HasChildElements.hasChildren(hasElements(childrenMatchers));
+        return HasChildren.hasChildren(childrenMatchers);
     }
 
     public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
-        return HasChildElements.hasChildren(hasElement(childMatcher));
+        return HasChildren.hasChildren(childMatcher);
     }
 
     public static Matcher<Iterable<Element>> withSize(int size) {

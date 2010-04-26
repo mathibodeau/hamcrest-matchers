@@ -40,5 +40,4 @@ public class WithContentTextTest extends AbstractMatcherTest {
     private Element element(String html) {
         return Selector.from(dom(html)).selectUnique("html > body > *");
     }
-
 }

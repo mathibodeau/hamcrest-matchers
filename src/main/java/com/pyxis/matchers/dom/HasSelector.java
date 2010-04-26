@@ -1,10 +1,7 @@
 package com.pyxis.matchers.dom;
 
 import com.google.common.collect.Iterables;
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.*;
 import org.w3c.dom.Element;
 
 import static com.threelevers.css.Selector.from;
@@ -23,7 +20,7 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
         Iterable<Element> elements = from(element).select(selector);
         if (Iterables.isEmpty(elements)) {
             mismatchDescription.appendText("no selector ");
-            mismatchDescription.appendText(selector);
+            mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
         boolean valueMatches = elementsMatcher.matches(elements);
@@ -45,5 +42,11 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
         return new HasSelector(selector, elementsMatcher);
     }
+
+    @Factory
+    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
+        return hasSelector(selector, Matchers.<Element>hasItems(elementsMatchers));
+    }
+
 }
 

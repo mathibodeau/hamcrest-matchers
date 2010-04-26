@@ -5,10 +5,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.springframework.ui.Model;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.springframework.util.StringUtils.quote;
+import static org.hamcrest.Matchers.*;
 
 public class HasAttribute extends FeatureMatcher<Model, Object> {
     private final String key;
