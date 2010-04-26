@@ -7,29 +7,29 @@ import org.springframework.ui.Model;
 
 import static org.hamcrest.Matchers.*;
 
-public class HasAttribute extends FeatureMatcher<Model, Object> {
+public class HasAttribute<T> extends FeatureMatcher<Model, T> {
     private final String key;
 
-    public HasAttribute(String key, Matcher<? super Object> valueMatcher) {
+    public HasAttribute(String key, Matcher<? super T> valueMatcher) {
         super(valueMatcher, "a model with \"" + key + "\"", "\"" + key + "\"");
         this.key = key;
     }
 
-    @Override protected Object featureValueOf(Model actual) {
-        return actual.asMap().get(key);
+    @Override protected T featureValueOf(Model actual) {
+        return (T) actual.asMap().get(key);
     }
 
     @Factory
-    public static Matcher<? super Model> hasAttribute(String key, Object value) {
-        return containsAttribute(key, equalTo(value));
+    public static <T> Matcher<? super Model> hasAttribute(String key, T value) {
+        return hasAttributeValue(key, equalTo(value));
     }
 
     @Factory
-    public static Matcher<? super Model> containsAttribute(String key, Matcher<? super Object> valueMatcher) {
-        return new HasAttribute(key, valueMatcher);
+    public static <T> Matcher<? super Model> hasAttributeValue(String key, Matcher<? super T> valueMatcher) {
+        return new HasAttribute<T>(key, valueMatcher);
     }
 
-    public static Matcher<? super Model> containsAttribute(String key) {
-        return new HasAttribute(key, not(nullValue()));
+    public static <T> Matcher<? super Model> containsAttribute(String key) {
+        return new HasAttribute<T>(key, not(nullValue()));
     }
 }
