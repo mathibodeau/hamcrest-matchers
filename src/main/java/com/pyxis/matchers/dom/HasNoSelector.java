@@ -21,14 +21,15 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Iterable<Element> selected = from(doc).select(selector);
         if (!isEmpty(selected)) {
-            mismatchDescription.appendText("matched element " + selected.iterator().next());
+            Element match = selected.iterator().next();
+            mismatchDescription.appendText("matched element \"" + match.getTagName() + "\"");
             return false;
         }
         return true;
     }
 
     public void describeTo(Description description) {
-        description.appendText("has no selector " + this.selector);
+        description.appendText("has no selector \"" + this.selector + "\"");
     }
 
     @Factory
