@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.pyxis.matchers.validation.FakeConstraintViolation.aViolation;
+import static com.pyxis.matchers.validation.FakePath.pathAlong;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasToString;
@@ -38,8 +39,15 @@ public class ViolationMatchersTest extends AbstractMatcherTest {
         assertMatches("multiple matchers", ViolationMatchers.violation(equalTo(shouldMatch), hasToString("should match")), shouldMatch);
     }
 
-    // TODO providesConvenientShortcutToMatchOnPathProperty
-    // TODO providesConvenientShortcutToMatchPartOfMessageTemplate
+    public void testProvidesConvenientShortcutToMatchOnPathProperty() {
+        assertMatches("path", ViolationMatchers.<Object>on("path.to.expression"), aViolation().on(pathAlong("path", "to", "expression")));
+        assertDoesNotMatch("path mismatch", ViolationMatchers.<Object>on("expression"), aViolation().on(pathAlong("mismatch")));
+    }
+
+    public void testProvidesConvenientShortcutToMatchOnMessageTemplate() {
+        assertMatches("message", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("error.key"));
+        assertDoesNotMatch("message mismatch", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("mismatched.key"));
+    }
 
     private <T> Set<ConstraintViolation<T>> asSet(ConstraintViolation<T>... violations) {
         Set<ConstraintViolation<T>> set = new HashSet<ConstraintViolation<T>>();

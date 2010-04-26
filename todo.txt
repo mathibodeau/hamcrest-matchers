@@ -1,2 +1,1 @@
-- Add unit tests for ViolationMatchers convenient shortcuts
 - Split into separate maven modules

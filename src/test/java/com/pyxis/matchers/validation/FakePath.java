@@ -11,7 +11,7 @@ public class FakePath implements Path {
 
     public Iterable<Node> nodes;
 
-    public static FakePath pathTo(String... components) {
+    public static FakePath pathAlong(String... components) {
         Collection<Node> nodes = new ArrayList<Node>();
         for (String component : components) {
             nodes.add(aNode().withName(component));

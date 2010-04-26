@@ -6,10 +6,10 @@ import org.hamcrest.Matcher;
 public class HasNodesAlongPathTest extends AbstractMatcherTest {
 
     HasNodesAlongPath simplePath = HasNodesAlongPath.path("property");
-    FakePath shouldMatchSimplePath = FakePath.pathTo("property");
+    FakePath shouldMatchSimplePath = FakePath.pathAlong("property");
     HasNodesAlongPath composedPath = HasNodesAlongPath.path("path.to.property");
-    FakePath shouldMatchComposedPath = FakePath.pathTo("path", "to", "property");
-    FakePath shouldNotMatch = FakePath.pathTo("notMatched");
+    FakePath shouldMatchComposedPath = FakePath.pathAlong("path", "to", "property");
+    FakePath shouldNotMatch = FakePath.pathAlong("notMatched");
 
     @Override protected Matcher<?> createMatcher() {
         return composedPath;
