@@ -93,7 +93,7 @@ public class DomMatchers {
     }
 
     public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
-        return HasChildren.hasChildren(childMatcher);
+        return HasChildren.hasChild(childMatcher);
     }
 
     public static Matcher<Iterable<Element>> withSize(int size) {
