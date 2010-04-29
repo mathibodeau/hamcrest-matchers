@@ -4,4 +4,6 @@ target
 .settings
 .classpath
 *.iml
+*.ipr
+*.iws
 release.properties
