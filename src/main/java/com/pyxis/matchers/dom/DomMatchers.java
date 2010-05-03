@@ -185,7 +185,10 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that each child of an element is matched by all given matchers. 
+     * Checks that children of an element are strictly matched <strong>in order</strong> by 
+     * given matchers. The number of matchers must be the same as the number of children.
+     * Each child will be matched against the matchers at same position, i.e. first child
+     * will be matched against the first matcher, second child againt second matcher, and so on.
      */
     public static Matcher<Element> hasChildren(Matcher<Element>... childrenMatchers) {
         return HasChildren.hasChildren(childrenMatchers);
