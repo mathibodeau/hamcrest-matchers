@@ -11,7 +11,7 @@ public class HasAttribute<T> extends FeatureMatcher<Model, T> {
     private final String key;
 
     public HasAttribute(String key, Matcher<? super T> valueMatcher) {
-        super(valueMatcher, "a model with \"" + key + "\"", "\"" + key + "\"");
+        super(valueMatcher, "with \"" + key + "\"", "\"" + key + "\"");
         this.key = key;
     }
 

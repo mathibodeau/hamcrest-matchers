@@ -42,7 +42,7 @@ public class HasAttributeTest extends AbstractMatcherTest {
     }
 
     public void testHasHumanReadableDescription() {
-        assertDescription("a model with \"key\" \"matches\"", createMatcher());
+        assertDescription("with \"key\" \"matches\"", createMatcher());
     }
 
     public void testHasHumanReadableMismatchDescription() {
