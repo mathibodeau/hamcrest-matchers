@@ -3,7 +3,7 @@ package com.pyxis.matchers.jpa;
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 
-import static com.pyxis.matchers.core.HasFieldWithValue.hasField;
+import static com.pyxis.matchers.jpa.HasFieldWithValue.hasField;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.core.IsEqual.equalTo;
 
