@@ -7,6 +7,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import java.lang.reflect.Field;
 
+import static com.pyxis.matchers.jpa.Reflection.readField;
 import static org.hamcrest.Matchers.anything;
 
 public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
@@ -24,7 +25,7 @@ public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
         Field field = getField(argument, mismatchDescription);
         if (field == null) return false;
 
-        Object fieldValue = Reflection.readField(argument, field);
+        Object fieldValue = readField(argument, field);
         boolean valueMatches = valueMatcher.matches(fieldValue);
         if (!valueMatches) {
             mismatchDescription.appendText("\"" + fieldName + "\" ");

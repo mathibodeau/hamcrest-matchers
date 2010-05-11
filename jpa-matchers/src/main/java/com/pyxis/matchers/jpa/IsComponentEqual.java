@@ -5,6 +5,8 @@ import org.hamcrest.DiagnosingMatcher;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
+import com.pyxis.matchers.core.HasFieldWithValue;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
