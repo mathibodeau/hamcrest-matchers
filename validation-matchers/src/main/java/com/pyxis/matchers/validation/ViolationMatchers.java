@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
- * A collection of hamcrest matchers to be used in assertions validating 
+ * A collection of hamcrest matchers to validate JSR-303 
  * {@link javax.validation.ConstraintViolation}s. 
  */
 public class ViolationMatchers {
@@ -40,39 +40,39 @@ public class ViolationMatchers {
     }
 
     /**
-     * Checks that there is at least one violation. 
+     * Checks that validation fails, i.e. there is at least one constraint violation.
      */
     public static <T> Matcher<Iterable<ConstraintViolation<T>>> fails() {
         return not(ViolationMatchers.<T>succeeds());
     }
 
     /**
-     * Checks that there is no violation.
+     * Checks that violation succeeds, i.e. that there is no constraint violation.
      */
     public static <T> Matcher<Iterable<ConstraintViolation<T>>> succeeds() {
         return IsEmptyIterable.emptyIterable();
     }
     
     /**
-     * Checks that each of the given matchers matches at least one of the violations.
+     * Checks that a violation satisfies a set of conditions.
      */
     public static <T> Matcher<ConstraintViolation<T>> violation(Matcher<? super ConstraintViolation<T>>... matchers) {
         return violation(Arrays.asList(matchers));
     }
 
     /**
-     * Checks that each of the given matchers matches at least one of the violations.
+     * Checks that a violation satisfies a set of conditions.
      */
     public static <T> Matcher<ConstraintViolation<T>> violation(Collection<Matcher<? super ConstraintViolation<T>>> matchers) {
         return allOf(matchers);
     }
 
     /**
-     * Checks that a violation applies to a given property. The property can be
-     * a nested property expression. For instance, expression foo.bar would
-     * check that violation applies to bar property of object stored in foo property. 
-     * @param pathExpression
-     * @return
+     * Checks that a violation occurs on a given property.
+     *
+     * The property can be a nested property expression. For instance, expression <code>foo.bar</code> would
+     * check that the violation applies to the <code>bar</code> property of the object accessed
+     * by the <code>foo</code> property.
      */
     public static <T> Matcher<ConstraintViolation<T>> on(String pathExpression) {
         return new FeatureMatcher<ConstraintViolation<T>, Path>(path(pathExpression), "on path", "path") {

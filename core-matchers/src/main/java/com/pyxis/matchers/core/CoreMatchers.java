@@ -16,8 +16,8 @@ public class CoreMatchers {
 	}
 
     /**
-     * Checks that a string is equal to some expected value.
-     * @param expected expected string value.
+     * Checks that a string is equal to the string representation of an expected value.
+     * @param expected the object to compare against.
      */
     public static Matcher<String> being(Object expected) {
         return new IsEqual<String>(String.valueOf(expected));

@@ -7,91 +7,100 @@ import org.hamcrest.Matchers;
 import org.w3c.dom.Element;
 
 /**
- * A collection of hamcrest matchers to be used in assertions validating a DOM document 
- * (objects of type {@link org.w3c.dom.Element}).  These can be especially useful to validate 
- * XHTML views of an application. 
+ * A collection of hamcrest matchers to validate DOM elements
+ * (objects of type {@link org.w3c.dom.Element}).
  */
 public class DomMatchers {
 
     private DomMatchers() {}
 
     /**
-     * Checks that the document contains an element(s) selected by given CSS selector, 
-     * are matched by specified matcher(s).  If the CSS selector selects more than one
-     * elements, they will be matched <strong>in order</strong>, by given matchers, 
+     * Checks that an element contains descendants referenced by the given CSS selector that
+     * satisfy a list of matchers in order.
+     * 
+     * If the selector picks out more than one element, the selected elements will be matched
+     * <strong>in order</strong> by the matchers provided as arguments (
      * i.e. the first element selected will be matched by the first matcher
-     * argument, the second element by the second matcher argument, and so on.
-     * @param selector a CSS selector used to find element(s) in validated document.
-     * @param elementsMatchers matchers used to validate element(s) found by selector.
+     * argument, the second element by the second matcher argument, and so on ...)
+     *
+     * @param selector the selector expression to filter descendants of the element.
+     * @param elementsMatchers matchers used to validate the list of descendants selected by the selector.
      */
     public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
         return HasSelector.hasSelector(selector, elementsMatchers);
     }
 
     /**
-     * Checks that the document contains an element(s) selected by given CSS selector, 
-     * are matched by specified matcher(s).  If the CSS selector selects more than one
-     * elements, they will be matched <strong>in order</strong>, by given matchers, 
+     * Checks that the an element contains descendants referenced by the given CSS selector that
+     * satisfy a list of matchers in order.
+     *
+     * If the selector picks out more than one element, the selected elements will be matched
+     * <strong>in order</strong> by the matchers provided as arguments (
      * i.e. the first element selected will be matched by the first matcher
-     * argument, the second element by the second matcher argument, and so on.
-     * @param selector a CSS selector used to find element(s) in validated document.
-     * @param elementsMatcher matchers used to validate element(s) found by selector.
+     * argument, the second element by the second matcher argument, and so on ...)
+     *
+     * @param selector the selector expression to filter descendants of the element.
+     * @param elementsMatcher matchers used to validate element(s) selected by the selector.
      */
     public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
         return HasSelector.hasSelector(selector, elementsMatcher);
     }
 
     /**
-     * Checks that the document contains a single element selected by given CSS selector.
-     * @param selector a CSS selector used to find an element in validated document.
+     * Checks that an element contains one and only one descendant referenced by the given CSS selector.
+     *
+     * @param selector the selector expression to select a single descendant of the element.
      */
     public static Matcher<Element> hasUniqueSelector(String selector) {
         return HasUniqueSelector.hasUniqueSelector(selector);
     }
 
     /**
-     * Checks that the document contains a single element selected by given CSS selector
-     * and that this element is matched by given matcher.
-     * @param selector a CSS selector used to find an element in validated document.
-     * @param elementMatcher matcher that validates unique element found.
+     * Checks that an element contains one and only one descendant referenced by the given CSS selector
+     * and that this descendant satisfy the given matcher.
+     *
+     * @param selector the selector expression to select a single descendant of the element.
+     * @param elementMatcher the matcher to validate the descendant found.
      */
     public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element> elementMatcher) {
         return HasUniqueSelector.hasUniqueSelector(selector, elementMatcher);
     }
 
     /**
-     * Checks that the document contains a single element selected by given CSS selector
+     * Checks that an element contains a single descendant selected by the given CSS selector
      * and that this element is matched by <strong>all</strong> given matchers.
-     * @param selector a CSS selector used to find an element in validated document.
-     * @param elementMatchers matchers that validate unique element found.
+     *
+     * @param selector the selector expression to filter descendants of the element.
+     * @param elementMatchers matchers to validate the unique descendant found.
      */
     public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element>... elementMatchers) {
         return HasUniqueSelector.hasUniqueSelector(selector, allOf(elementMatchers));
     }
 
     /**
-     * Checks that the document does not contain any element corresponding to given
+     * Checks that an element does <strong>not</strong> contain any element matched by the given
      * CSS selector.
-     * @param selector a CSS selector
+     * @param selector the CSS selector
      */
     public static Matcher<Element> hasNoSelector(String selector) {
     	return HasNoSelector.hasNoSelector(selector);
     }
 
     /**
-     * Checks that the elements validated are matched by given matchers.  Each validated
+     * Checks that a group of elements are matched in order by a group of matchers.  Each validated
      * element is matched by a single matcher argument, i.e. first element is matched by
      * the first matcher argument, second element is matched by second matcher argument, and
      * so on.
-     * @param elementMatchers matchers used to validate {@link org.w3c.dom.Element}s 
+     * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
      */
     public static Matcher<Iterable<Element>> inOrder(Matcher<Element>... elementMatchers) {
         return Matchers.contains(elementMatchers);
     }
 
     /**
-     * Checks that elements contain at least one that is matched by given matcher.
-     * @param elementMatcher an element matcher.
+     * Checks that a group of elements contains at least one element that is matched by the matcher provided.
+     * 
+     * @param elementMatcher matcher for the element to look for.
      */
     @SuppressWarnings("unchecked")
 	public static Matcher<Iterable<Element>> hasElement(Matcher<? super Element> elementMatcher) {
@@ -99,8 +108,9 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that elements contain, in any order, at least one matched element for
+     * Checks that a group of elements contains, in any order, at least one matched element for
      * each given matcher.
+     *
      * @param elementMatchers matchers for elements to look for
      */
     public static Matcher<Iterable<Element>> hasElements(Matcher<? super Element>... elementMatchers) {
@@ -108,85 +118,95 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that an element has specified tag name.
+     * Checks that an element has the specified tag.
      */
     public static Matcher<Element> withTag(String tagName) {
         return WithTag.withTag(tagName);
     }
 
     /**
-     * Checks that an element contains exactly the given text.
+     * Checks that an element content matches exactly a given text.
      */
     public static Matcher<Element> withText(String contentText) {
         return WithContentText.withContent(contentText);
     }
     
     /**
-     * Checks that an element contains only blank characters.  
+     * Checks that an element content contains only blank characters.
      */
     public static Matcher<Element> withBlankText() {
     	return WithContentText.withBlankContent();
     }
 
     /**
-     * Checks that an element contains text that is matched by specified matcher.
+     * Checks that an element content text is matched by the given matcher.
      */
     public static Matcher<Element> withText(Matcher<? super String> contentMatcher) {
         return WithContentText.withContent(contentMatcher);
     }
 
     /**
-     * Checks that an element has an attribute that is matched by specified matcher.
+     * Checks that an element has a specified attribute whose value is matched by the given matcher.
+     *
      * @param name name of the attribute to validate.
-     * @param valueMatcher matcher used to validate attribute's value.
+     * @param valueMatcher matcher used to validate the attribute's value.
      */
     public static Matcher<Element> withAttribute(String name, Matcher<? super String> valueMatcher) {
         return WithAttribute.withAttribute(name, valueMatcher);
     }
 
     /**
-     * Checks that an element has an attribute with specified value.
-     * @param name name of the attribute to validate.
-     * @param value value the attribute should have. 
+     * Checks that an element has the specified attribute with an expected value.
+     *
+     * @param name the name of the attribute to validate.
+     * @param value the expected value of the attribute.
      */
     public static Matcher<Element> withAttribute(String name, String value) {
         return WithAttribute.withAttribute(name, value);
     }
 
     /**
-     * Checks that an element has a name attribute with specified value.
-     * @param name value the name attribute should have.
+     * Checks that an element has a given attribute, whatever its value.
+     *
+     * @param name the name of the expected attribute.
      */
     public static Matcher<Element> withName(String name) {
         return WithAttribute.withName(name);
     }
 
     /**
-     * Checks that an element has an id attribute with specified value.
-     * @param id value the id attribute should have.
+     * Checks that an element has an id attribute with the specified value.
+     *
+     * @param id expected value of the id attribute.
      */
     public static Matcher<Element> withId(String id) {
         return WithAttribute.withId(id);
     }
 
     /**
-     * Checks that an element has class attribute with value containing some text value.
-     * @param className value or part of the value the class attribute should have.
+     * Checks that an element has a given class. Note that the element can have other classes as well.
+     *
+     * @param className the class the element should have.
      */
     public static Matcher<Element> withClassName(String className) {
         return WithAttribute.withClassName(className);
     }
 
     /**
-     * Checks that children of an element are matched by given matcher. 
+     * Checks that children of an element are matched <strong>in order</strong> by a group of matchers.
+     * The number of matchers must be the same as the number of children.
+     *
+     * Each child will be matched against the matchers at same position, i.e. first child
+     * will be matched against the first matcher, second child againt second matcher, and so on.
      */
     public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
         return HasChildren.hasChildren(childrenMatcher);
     }
 
     /**
-     * Checks that children of an element are strictly matched <strong>in order</strong> by 
-     * given matchers. The number of matchers must be the same as the number of children.
+     * Checks that children of an element are matched <strong>in order</strong> by a group of
+     * matchers. The number of matchers must be the same as the number of children.
+     *
      * Each child will be matched against the matchers at same position, i.e. first child
      * will be matched against the first matcher, second child againt second matcher, and so on.
      */
@@ -195,7 +215,7 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that at least one child of an element is matched by given matcher. 
+     * Checks that at least one child of an element is matched by the given matcher.
      */
     @SuppressWarnings("unchecked")
     public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
@@ -204,7 +224,8 @@ public class DomMatchers {
 
     /**
      * Checks that a collection of elements is of a certain size.
-     * @param size expected number of elements.
+     *
+     * @param size the expected number of elements.
      */
     public static Matcher<Iterable<Element>> withSize(int size) {
         return Matchers.iterableWithSize(size);

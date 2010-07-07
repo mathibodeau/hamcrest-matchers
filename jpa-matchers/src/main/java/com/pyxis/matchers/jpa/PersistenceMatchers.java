@@ -5,7 +5,7 @@ import org.hamcrest.Matcher;
 import static org.hamcrest.Matchers.anything;
 
 /**
- * A collection of hamcrest matchers to be used in assertions validating 
+ * A collection of hamcrest matchers to validate
  * field values of persistent objects. 
  */
 public class PersistenceMatchers {
@@ -13,21 +13,23 @@ public class PersistenceMatchers {
     private PersistenceMatchers() {}
 
     /**
-     * Checks that an object has a field with a value that is matched by given matcher.
-     * The field does not have to be public or to have a visible accessor.  No method
-     * of the object will get called.
+     * Checks that an entity has a field with a value that is matched by the given matcher.
+     *
+     * The field does not have to be public or to have a visible accessor. Field is accessed directly.
+     *
      * @param field the name of a field
-     * @param value a matcher to check for an expected value.
+     * @param value a matcher to validate the field value.
      */
     public static <T> Matcher<T> hasField(String field, Matcher<T> value) {
         return HasFieldWithValue.hasField(field, value);
     }
 
     /**
-     * Checks that an object has a field with a specific value.
-     * The field does not have to be public or to have a visible accessor.
-     * No method of the object will get called.
-     * @param field the name of a field
+     * Checks that an entity has a given field, whatever its value.
+     *
+     * The field does not have to be public or to have a visible accessor. Field is accessed directly.
+     *
+     * @param field the name of the expected field
      */
     public static <T> Matcher<T> hasField(String field) {
         return HasFieldWithValue.hasField(field, anything());
@@ -37,8 +39,9 @@ public class PersistenceMatchers {
      * Checks that a component (aka value object) is equal to another
      * given component.  A null component is considered to be equal to
      * a component with only null persistent field values. Persistent fields
-     * of a component are fields that are neither static or transient. 
-     * @param component a component with expected state.
+     * of a component are fields that are neither static or transient.
+     *
+     * @param component the component to match against.
      */
     public static <T> Matcher<T> componentEqualTo(T component) {
         return IsComponentEqual.componentEqualTo(component);
@@ -46,9 +49,10 @@ public class PersistenceMatchers {
 
     /**
      * Checks that an entity has the same persistent field values
-     * than another given entity. Persistent fields of an entity are
+     * than another entity. Persistent fields of an entity are
      * fields that are neither static or transient.
-     * @param entity an entity with expected state. 
+     *
+     * @param entity the entity to compare to. 
      */
     public static <T> Matcher<T> samePersistentFieldsAs(T entity) {
         return SamePersistentFieldsAs.samePersistentFieldsAs(entity);
