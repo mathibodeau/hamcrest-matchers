@@ -11,7 +11,6 @@
         <module>jpa-matchers</module>
         <module>spring-matchers</module>
         <module>validation-matchers</module>
-        <module>selenium-matchers</module>
         <module>all-matchers</module>
     </modules>
     <name>hamcrest-matchers</name>
