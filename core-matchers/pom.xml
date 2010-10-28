@@ -8,6 +8,6 @@
     <modelVersion>4.0.0</modelVersion>
     <name>core-matchers</name>
     <artifactId>core-matchers</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.3</version>
 
 </project>
