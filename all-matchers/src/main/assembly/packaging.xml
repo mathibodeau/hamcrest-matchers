@@ -15,7 +15,6 @@
                 <include>com.pyxis.matchers:jpa-matchers</include>
                 <include>com.pyxis.matchers:validation-matchers</include>
                 <include>com.pyxis.matchers:spring-matchers</include>
-                <include>com.pyxis.matchers:selenium-matchers</include>
             </includes>
             <unpack>true</unpack>
         </dependencySet>

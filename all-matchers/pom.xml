@@ -39,11 +39,6 @@
             <artifactId>spring-matchers</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>selenium-matchers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
